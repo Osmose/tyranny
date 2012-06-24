@@ -17,13 +17,15 @@ io.sockets.on('connection', function(socket) {
     console.log('Connection made.');
     socket.emit('print', {msg: 'Please login above'});
 
+    socket.on('getusers', emituserlist);
 
     socket.on('login', function(data) {
-        console.log("Login from: " + data.username);
+        console.log('Login from: ' + data.username);
         users[data.username] = {ipaddress: socket.handshake.address.address,
                                 s: socket};
         socket.emit('print', {msg: 'Welcome ' + data.username});
         console.log(users);
+        emituserlist();
     });
     socket.on('disconnect', function(data) {
        console.log('client disconnected');
@@ -35,7 +37,14 @@ io.sockets.on('connection', function(socket) {
        }
        console.log(users);
     });
-});
 
+    function emituserlist() {
+        var userlist = {};
+        for (user in users) {
+            userlist[user] = {username: user};
+        }
+        socket.emit('userlistchanged', userlist);
+    };
+});
 // Global list of users currently active on the server
 var users = {};
