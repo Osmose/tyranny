@@ -15,6 +15,17 @@ app.get('/', function(req, res) {
 var io = socketio.listen(app);
 io.sockets.on('connection', function(socket) {
     console.log('Connection made.');
-    socket.emit('print', {msg: 'Hello world!'});
+    socket.emit('print', {msg: 'Please login above'});
+
+
+    socket.on('login', function(data) {
+        console.log(data);
+        users.push({username: data.username, ipaddress: socket.handshake.address.address});
+        socket.emit('print', {msg: 'Welcome ' + data.username});
+        console.log(users);
+    });
+
 });
 
+
+var users = [];
