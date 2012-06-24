@@ -5,10 +5,19 @@
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
   </head>
   <body>
+    <form id='loginform'>
+      <label for="username">Username</label>
+      <input name="username" id="username" type="text" value="ubergeek"></input>
+      <input name="submit" id="loginbutton" type="submit" value="Login!"></input>
+    </form>
     <div id="msg"></div>
+
     <script>
       var require = {
-        baseUrl: 'js'
+        baseUrl: 'js',
+        paths: {
+          jquery: 'http://code.jquery.com/jquery-latest.min',
+        }
       };
     </script>
     <script src="js/lib/socket.io.js"></script>
