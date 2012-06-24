@@ -19,13 +19,23 @@ io.sockets.on('connection', function(socket) {
 
 
     socket.on('login', function(data) {
-        console.log(data);
-        users.push({username: data.username, ipaddress: socket.handshake.address.address});
+        console.log("Login from: " + data.username);
+        users[data.username] = {ipaddress: socket.handshake.address.address,
+                                s: socket};
         socket.emit('print', {msg: 'Welcome ' + data.username});
         console.log(users);
     });
-
+    socket.on('disconnect', function(data) {
+       console.log('client disconnected');
+       for(username in users) {
+           if (users[username].s.id == socket.id) {
+               console.log('    ' + username + ' disconnected');
+               delete users[username];
+           }
+       }
+       console.log(users);
+    });
 });
 
-
-var users = [];
+// Global list of users currently active on the server
+var users = {};
