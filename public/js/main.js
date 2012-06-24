@@ -1,17 +1,15 @@
 define(function(require) {
     var $ = require('jquery');
-    var socket = io.connect('http://localhost:8000');
+    var socket = io.connect();
 
     socket.on('userlistchanged', function(data) {
-        console.log('Updating userlist: ' + data);
+        console.log('Updating userlist:');
+        console.log(data);
         var userlist = $('#userlist');
         userlist.empty();
         for(user in data) {
             userlist.append('<li>'+user+'</li>');
         }
-    });
-    socket.on('print', function(data) {
-        $('#msg').text(data.msg);
     });
 
     $('#loginform').on('submit', function(e){

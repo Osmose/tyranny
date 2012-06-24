@@ -8,6 +8,7 @@ util.connectToDB(function(db) {
     // Global list of users currently active on the server
     var users = {};
 
+
     // Load models
     var models = require('./models')(db);
 
@@ -23,18 +24,27 @@ util.connectToDB(function(db) {
 
     var io = socketio.listen(app);
     io.sockets.on('connection', function(socket) {
-        console.log('Connection made.');
-        socket.emit('print', {msg: 'Please login above'});
-
+        console.log('Connection from ' + socket.handshake.address.address);
+        emituserlist();
+        
+        // The client is logging in
         socket.on('login', function(data) {
             console.log('Login from: ' + data.username);
             users[data.username] = {ipaddress: socket.handshake.address.address,
                                     s: socket};
-            socket.emit('print', {msg: 'Welcome ' + data.username});
             console.log(users);
-            emituserlist();
+            
+            // Send an updated userlist to everyone
+            var userlist = {};
+            for (user in users) {
+                userlist[user] = {username: user};
+            }
+            for (user in users) {
+                users[user].s.emit('userlistchanged', userlist);
+            }
         });
-
+        
+        // The client disconnected(Remove them from the list of active users)
         socket.on('disconnect', function(data) {
            console.log('client disconnected');
            for(username in users) {
@@ -45,8 +55,11 @@ util.connectToDB(function(db) {
            }
            console.log(users);
         });
+        
+        // The client wants the list of users
         socket.on('getusers', emituserlist);
 
+        // Sends the list of online users to the client
         function emituserlist() {
             var userlist = {};
             for (user in users) {
