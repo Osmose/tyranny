@@ -15,6 +15,6 @@ app.get('/', function(req, res) {
 var io = socketio.listen(app);
 io.sockets.on('connection', function(socket) {
     console.log('Connection made.');
-    socket.emit('print', {msg: 'Hello world!'});
+    socket.emit('print', {msg: 'Hello waffles!'});
 });
 
