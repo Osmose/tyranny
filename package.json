@@ -1,0 +1,9 @@
+{
+    "name": "Tyranny",
+    "version": "0.0.1",
+     "description": "Like that one boardgame.",
+     "dependencies": {
+        "express": ">=2.5.10",
+        "socket.io": ">=0.9.6"
+     }
+}
