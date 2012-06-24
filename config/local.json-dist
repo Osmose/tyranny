@@ -1,0 +1,8 @@
+{
+    "db": {
+        "hostname": "localhost",
+        "database": "tyranny",
+        "username": "",
+        "password": ""
+    }
+}
