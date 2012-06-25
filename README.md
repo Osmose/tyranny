@@ -2,11 +2,16 @@
 
 Node.JS + Websockets + That one boardgame = Fun!
 
+## Prerequisites
+
+- [NodeJS 0.6.9 or greater](http://nodejs.org/)
+- [Jake](https://github.com/isaacs/node-jake) (`npm install -g jake` should do it)
+
 ## Setup
 
 1. `git clone git://github.com/Osmose/tyranny.git && cd tyranny` to clone the
    repo.
-2. `npm install && npm install -g jake` to install dependencies as well as jake.
+2. `npm install` to install dependencies.
 3. `cp config/local.json-dist local.json` to create a local config.
 4. Edit `config/local.json` to add database connection info.
 5. `jake sync` to set up the database.
