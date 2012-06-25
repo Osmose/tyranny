@@ -26,24 +26,31 @@ util.connectToDB(function(db) {
     io.sockets.on('connection', function(socket) {
         console.log('Connection from ' + socket.handshake.address.address);
         emituserlist();
-        
+
         // The client is logging in
         socket.on('login', function(data) {
             console.log('Login from: ' + data.username);
+            
+
+            // If passwords match then
+            if (true) {
+                socket.emit('login_success', {username: data.username});
+            } else {
+                socket.emit('login_failure', {message: "Invalid username/password"});
+            }
+
             users[data.username] = {ipaddress: socket.handshake.address.address,
                                     s: socket};
             console.log(users);
-            
             // Send an updated userlist to everyone
             var userlist = {};
             for (user in users) {
                 userlist[user] = {username: user};
             }
-            for (user in users) {
-                users[user].s.emit('userlistchanged', userlist);
-            }
+            socket.broadcast.emit('userlistchanged', userlist);
+            socket.emit('userlistchanged', userlist)
         });
-        
+
         // The client disconnected(Remove them from the list of active users)
         socket.on('disconnect', function(data) {
            console.log('client disconnected');
@@ -54,8 +61,14 @@ util.connectToDB(function(db) {
                }
            }
            console.log(users);
+           // Send an updated userlist to everyone
+           var userlist = {};
+           for (user in users) {
+               userlist[user] = {username: user};
+           }
+           socket.broadcast.emit('userlistchanged', userlist);
         });
-        
+
         // The client wants the list of users
         socket.on('getusers', emituserlist);
 

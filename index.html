@@ -5,14 +5,28 @@
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
   </head>
   <body>
-    <form id='loginform'>
-      <label for="username">Username</label>
-      <input name="username" id="username" type="text" value="ubergeek"></input>
-      <input name="submit" id="loginbutton" type="submit" value="Login!"></input>
-    </form>
-    <div id="msg"></div>
-    <ul id="userlist"></ul>
-
+    <div id="sidebar">
+        <!-- user information -->
+        <p id="userinfo">
+            Welcome <span id="user"></span>!<br>
+        </p>
+        <form id='loginform'>
+          <p id="loginmsg"><!-- Placeholder for messages related to login(errors/etc)--></p>
+          <table>
+            <tr>
+                <td><label for="username">Username: </label></td>
+                <td><input name="username" id="username" type="text" size="15" value="" /></td>
+            </tr>
+            <tr>
+                <td><label for="password">Password: </label></td>
+                <td><input name="password" id="password" type="password" size="15" value="" /></td>
+            </tr>
+            <tr><td colspan="2"><input name="submit" id="loginbutton" type="submit" value="Login"></input></td></tr>
+          </table>
+        </form>
+        <h4>Userlist:</h4>
+        <ul id="userlist"></ul>
+    </div>
     <script>
       var require = {
         baseUrl: 'js',

@@ -5,5 +5,10 @@ module.exports = function(db) {
         name: {type: 'string'}
     });
 
+    models.Players = db.define('players', {
+        name: {type: 'string'},
+        password: {type: 'string'}
+    });
+
     return models;
 };
